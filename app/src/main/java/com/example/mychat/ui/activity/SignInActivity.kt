@@ -1,4 +1,4 @@
-package com.example.mychat
+package com.example.mychat.ui.activity
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -6,9 +6,9 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import com.example.mychat.consts.Logs
+import com.example.mychat.R
+import com.example.mychat.consts.LogTags
 import com.example.mychat.databinding.ActivitySignInBinding
-import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -46,7 +46,7 @@ class SignInActivity : AppCompatActivity() {
                     firebaseAuthWithGoogle(account.idToken!!)
                 }
             } catch (e: ApiException) {
-                Log.e(Logs.auth, "Api exception")
+                Log.e(LogTags.auth, "Api exception")
             }
         }
     }
@@ -69,17 +69,17 @@ class SignInActivity : AppCompatActivity() {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
         auth.signInWithCredential(credential).addOnCompleteListener {
             if(it.isSuccessful) {
-                Log.d(Logs.auth, "Google signIn done")
+                Log.d(LogTags.auth, "Google signIn done")
                 navigateToMain()
             } else {
-                Log.d(Logs.auth, "Google signIn fail")
+                Log.d(LogTags.auth, "Google signIn fail")
             }
         }
     }
 
     private fun checkForAuthorizedUser() {
         if(auth.currentUser != null) {
-            Log.d(Logs.auth, "User is already signed in")
+            Log.d(LogTags.auth, "User is already signed in")
             navigateToMain()
         }
     }
