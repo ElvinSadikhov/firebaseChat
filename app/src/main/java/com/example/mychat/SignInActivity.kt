@@ -29,6 +29,7 @@ class SignInActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setupFirebase()
+        checkForAuthorizedUser()
         binding.signInBtn.setOnClickListener {
             signInWithGoogle()
         }
@@ -69,10 +70,23 @@ class SignInActivity : AppCompatActivity() {
         auth.signInWithCredential(credential).addOnCompleteListener {
             if(it.isSuccessful) {
                 Log.d(Logs.auth, "Google signIn done")
+                navigateToMain()
             } else {
                 Log.d(Logs.auth, "Google signIn fail")
             }
         }
+    }
+
+    private fun checkForAuthorizedUser() {
+        if(auth.currentUser != null) {
+            Log.d(Logs.auth, "User is already signed in")
+            navigateToMain()
+        }
+    }
+
+    private fun navigateToMain() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
     }
 
 }
